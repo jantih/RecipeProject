@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="RecipeProject" Height="600" Width="1200">
     <Grid>
-
+        <DataGrid Margin="10,5,10,100" Name="dataGrid" ItemsSource="{Binding}"/>
         <Button Name="connButton" Content="Connect" HorizontalAlignment="Left" Margin="20,0,0,20" Padding="10px 5px" VerticalAlignment="Bottom" Click="Connect_Button_Click"/>
         <Button Name="disconnButton" Content="Disconnect" HorizontalAlignment="Left" Margin="120,0,0,20" Padding="10px 5px" VerticalAlignment="Bottom" Click="Disconnect_Button_Click"/>
         <Button Name="readSql" Content="Read from DB" HorizontalAlignment="Left" Margin="220,0,0,20" Padding="10px 5px" VerticalAlignment="Bottom" Click="readSql_Click"/>
