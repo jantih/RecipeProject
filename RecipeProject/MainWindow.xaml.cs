@@ -51,12 +51,12 @@ namespace RecipeProject
             Trace.WriteLine("SQL Connection closed...");
         }
         public void ReadFromSql() {
-            string sql = "SELECT * FROM test";
-            MySqlCommand cmd = new MySqlCommand(sql, connection);
+            string query = "SELECT * FROM ingredientcategory";
+            MySqlCommand cmd = new MySqlCommand(query, connection);
             MySqlDataReader rdr = cmd.ExecuteReader();
             while (rdr.Read())
             {
-                Trace.WriteLine(rdr[1] + " -- " + rdr[2]);
+                Trace.WriteLine($"{rdr[0]}:\t{rdr[1]} - {rdr[2]}");
             }
             rdr.Close();
             /*
@@ -75,7 +75,7 @@ namespace RecipeProject
         SqlConnection conn;
         public MainWindow()
         {
-            this.conn = new("localhost", "admin", "recipeproject", "admin123", 3306);
+            this.conn = new("localhost", "resepti", "reseptiproj", "1234", 3306);
         }
 
         private void Connect_Button_Click(object sender, RoutedEventArgs e)
