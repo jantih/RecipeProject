@@ -78,9 +78,11 @@ namespace RecipeProject
     public partial class MainWindow : Window
     {
         SqlConnection conn;
+        DataTable dt;
         public MainWindow()
         {
             this.conn = new("localhost", "resepti", "reseptiproj", "1234", 3306);
+            this.dt = new DataTable();
         }
 
         private void Connect_Button_Click(object sender, RoutedEventArgs e)
@@ -95,7 +97,12 @@ namespace RecipeProject
 
         private void readSql_Click(object sender, RoutedEventArgs e)
         {
-            dataGrid.DataContext = this.conn.ReadFromSql();
+            dt = this.conn.ReadFromSql();
+            dataGrid.DataContext = dt;
+            // DEBUG -- Iteroidaan SQLstä haetun datan läpi, tätä voi myöhemmin käyttää ingredient listan täyttämiseksi backendin puolella
+            foreach (DataRow row in dt.Rows) {
+                Trace.WriteLine(row["IngredientName"] + " - " + row["CategoryName"]);
+            }
         }
     }
 }
