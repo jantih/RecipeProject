@@ -50,8 +50,10 @@ namespace ConsoleApp1
         public void UpdateDatabase() { 
         
         }
-        public void AddToDatabase() { 
-            
+        public void AddToDatabase() {
+            string query = "INSERT INTO ingredient(IngredientId, IngredientName, IngredientConsumable, IngredientMinimum, IngredientDailyConsumptionRate, RefCategory) VALUES ('', 'Kana', 0, 0, 0, 4)";
+            MySqlCommand cmd = new MySqlCommand(query, connection);
+            cmd.ExecuteNonQuery();
         }
     }
     class Program
@@ -60,7 +62,7 @@ namespace ConsoleApp1
         {
             SqlConnection sql = new SqlConnection("localhost","resepti", "reseptiproj", "1234", 3306);
             sql.OpenConnection();
-
+            sql.AddToDatabase();
             sql.ReadFromDatabase();
 
             sql.CloseConnection();
