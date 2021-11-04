@@ -20,7 +20,6 @@ namespace RecipeProject
 {
     /// <summary>
     /// Connection to MySQL Server
-    /// Provide serverinfo for the constructor
     /// </summary>
     public class SqlConnection {
         private string connstr, ipaddr, user, database, password;
@@ -67,8 +66,8 @@ namespace RecipeProject
     /// </summary>
     public partial class MainWindow : Window
     {
-        SqlConnection conn;
-        DataTable dt;
+        private SqlConnection conn;
+        private DataTable dt;
         public MainWindow()
         {
             this.conn = new("localhost", "resepti", "reseptiproj", "1234", 3306);
@@ -87,8 +86,8 @@ namespace RecipeProject
 
         private void readSql_Click(object sender, RoutedEventArgs e)
         {
-            dt = this.conn.ReadFromSql();
-            dataGrid.DataContext = dt;
+            this.dt = this.conn.ReadFromSql();
+            dataGrid.DataContext = this.dt;
             // DEBUG -- Iteroidaan SQLstä haetun datan läpi, tätä voi myöhemmin käyttää ingredient listan täyttämiseksi backendin puolella
             foreach (DataRow row in dt.Rows) {
                 Trace.WriteLine(row["IngredientName"] + " - " + row["CategoryName"]);
