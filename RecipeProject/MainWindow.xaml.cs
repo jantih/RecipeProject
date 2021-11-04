@@ -54,20 +54,10 @@ namespace RecipeProject
         public DataTable ReadFromSql() {
             string query = "SELECT * FROM ingredientcategory";
             MySqlCommand cmd = new MySqlCommand(query, connection);
-            /*MySqlDataReader rdr = cmd.ExecuteReader();
-            while (rdr.Read())
-            {
-                Trace.WriteLine($"{rdr[0]}:\t{rdr[1]} - {rdr[2]}");
-            }
-            rdr.Close();*/
+            
             DataTable dt = new();
             dt.Load(cmd.ExecuteReader());
             return dt;
-            /*
-                string sql = "INSERT INTO test(name, country, job) VALUES ('Jose', 'Mexico','Unemployed')";
-                MySqlCommand cmd = new MySqlCommand(sql, connection);
-                cmd.ExecuteNonQuery();
-            */
             
         }
     }
