@@ -7,10 +7,20 @@
         mc:Ignorable="d"
         Title="RecipeProject" Height="600" Width="1200">
     <Grid>
-        <DataGrid Margin="10,5,10,100" Name="dataGrid" ItemsSource="{Binding}"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="71*"/>
+            <ColumnDefinition Width="329*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid Margin="311,10,10,95" Name="dataGrid" ItemsSource="{Binding}" Grid.Column="1"/>
         <Button Name="connButton" Content="Connect" HorizontalAlignment="Left" Margin="20,0,0,20" Padding="10px 5px" VerticalAlignment="Bottom" Click="Connect_Button_Click"/>
         <Button Name="disconnButton" Content="Disconnect" HorizontalAlignment="Left" Margin="120,0,0,20" Padding="10px 5px" VerticalAlignment="Bottom" Click="Disconnect_Button_Click"/>
-        <Button Name="readSql" Content="Read from DB" HorizontalAlignment="Left" Margin="220,0,0,20" Padding="10px 5px" VerticalAlignment="Bottom" Click="readSql_Click"/>
+        <Button Name="readSql" Content="Read from DB" HorizontalAlignment="Left" Margin="7,0,0,20" Padding="10px 5px" VerticalAlignment="Bottom" Click="readSql_Click" Grid.Column="1"/>
+        <Button Name="newRecipe" Content="Add a new recipe" HorizontalAlignment="Left" Margin="122,0,0,20" Padding="10px 5px" VerticalAlignment="Bottom" Click="newRecipe_Click" Grid.Column="1"/>
+        <TextBox HorizontalAlignment="Left" Margin="53,78,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Margin="53,170,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Margin="53,147,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Margin="53,124,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <TextBox HorizontalAlignment="Left" Margin="53,101,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
 
     </Grid>
 </Window>

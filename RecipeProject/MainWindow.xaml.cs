@@ -93,5 +93,10 @@ namespace RecipeProject
                 Trace.WriteLine(row["IngredientName"] + " - " + row["CategoryName"]);
             }
         }
+
+        private void newRecipe_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 }
