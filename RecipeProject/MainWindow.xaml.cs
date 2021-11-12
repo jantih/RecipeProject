@@ -96,7 +96,7 @@ namespace RecipeProject
 
         private void newRecipe_Click(object sender, RoutedEventArgs e)
         {
-            
+            //
         }
     }
 }
