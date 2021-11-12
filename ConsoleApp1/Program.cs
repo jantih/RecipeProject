@@ -51,7 +51,8 @@ namespace ConsoleApp1
         
         }
         public void AddToDatabase() {
-            string query = "INSERT INTO ingredient(IngredientId, IngredientName, IngredientConsumable, IngredientMinimum, IngredientDailyConsumptionRate, RefCategory) VALUES ('', 'Kana', 0, 0, 0, 4)";
+            string query = $"INSERT INTO ingredient(IngredientId, IngredientName, IngredientConsumable, IngredientMinimum, IngredientDailyConsumptionRate, RefCategory) VALUES ('', 'kana', 0, 0, 0, 4)";
+            
             MySqlCommand cmd = new MySqlCommand(query, connection);
             cmd.ExecuteNonQuery();
         }
