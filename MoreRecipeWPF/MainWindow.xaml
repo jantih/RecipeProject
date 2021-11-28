@@ -45,7 +45,21 @@
                     </Grid.RowDefinitions>
                     <TextBlock Text="Plan your next meal" Grid.Row="1" Grid.Column="1" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
                     <Label Content="Choose a recipe:" Grid.Row="3" Grid.Column="1"/>
-                    <ListBox Name="allRecipes" Grid.Row="4" Grid.Column="1" Grid.RowSpan="4"/>
+                    <ListBox Name="allRecipes" HorizontalAlignment="Left" VerticalAlignment="Center"
+Background="#fff" SelectionChanged="allRecipes_SelectionChanged_1" >
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                                    <TextBlock Text="{Binding RecipeId}" Margin="2" FontWeight="Bold"/>
+                                    <TextBlock Text="{Binding RecipeName}" Margin="2" />
+                                    
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    
+
+
                     <Button Name="planRecipe" Content="Choose" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right" Width="100" Margin="0 4px" Click="planRecipe_Click"/>
                 </Grid>
             </TabItem>

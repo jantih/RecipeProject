@@ -25,6 +25,8 @@ namespace MoreRecipeWPF
         private string connstr, ipaddr, user, database, password;
         private int port;
         MySqlConnection connection;
+        MySqlDataAdapter dataAdapter;
+        DataSet ds;
         public SqlConnection(string ipaddr, string user, string database, string password, int port)
         {
             this.ipaddr = ipaddr;
@@ -34,6 +36,7 @@ namespace MoreRecipeWPF
             this.port = port;
             this.connstr = $"server={this.ipaddr};user={this.user};database={this.database};port={this.port};password={this.password}";
             this.connection = new MySqlConnection(this.connstr);
+            
         }
         public void OpenConnection()
         {
@@ -55,7 +58,7 @@ namespace MoreRecipeWPF
         }
         public DataTable ReadFromSql()
         {
-            string query = "SELECT * FROM ingredientcategory";
+            string query = "SELECT * FROM recipe";
             MySqlCommand cmd = new MySqlCommand(query, connection);
 
             DataTable dt = new();
@@ -63,237 +66,184 @@ namespace MoreRecipeWPF
             return dt;
 
         }
-    }
-
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    /// 
-    public class Ingredient
-    {
-        public Ingredient getIngredientId ()
+        public DataTable ShowRecipes()
         {
+            string query = "SELECT * FROM recipe";
+            MySqlCommand cmd = new MySqlCommand(query, connection);
+
+            DataTable dt1 = new();
+            dt1.Load(cmd.ExecuteReader());
+            return dt1;
+        }
+
+
+        
+
+        public void fill_RecipesListBox()
+        {
+
+
+            /*MySqlConnection connection = new MySqlConnection(this.connstr);
+            string query = "SELECT * FROM recipe";
+            MySqlCommand cmd = new MySqlCommand(query, connection);
+
+            MySqlDataReader dbr;
             
-        }
+            
 
-        public void setIngredientId()
-        {
+               this.connection.Open();
 
-        }
+                dbr = cmd.ExecuteReader();
 
-        public Ingredient getIngredientName()
-        {
+                while (dbr.Read())
 
-        }
+                {
 
-        public void setIngredientName()
-        {
+                (new Recipe { RecipeId = dbr.GetInt32(0), RecipeName = dbr.GetString(1) });
 
-        }
+                
+
+                }
+
+            
+            */
+
+            try
+            {
+                MySqlConnection connection = new MySqlConnection(this.connstr);
+                connection.Open();
+                string query = "SELECT * FROM recipe";
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                dataAdapter = new MySqlDataAdapter(cmd);
+                ds = new DataSet();
+                dataAdapter.Fill(ds, "recipe");
+                Recipe re = new Recipe();
+                IList<Recipe> re1 = new List<Recipe>();
+
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    re1.Add(new Recipe
+                    {
+                        RecipeId = Convert.ToInt32(dr[0].ToString()),
+                        RecipeName = dr[1].ToString(),
+                       
+                    });
+                }
+               allRecipes.ItemsSource = re1;
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            finally
+            {
+                ds = null;
+                dataAdapter.Dispose();
+                connection.Close();
+                connection.Dispose();
+            }
 
 
-        public Boolean getConsumable()
-        {
-
-        }
 
 
-        public Boolean setConsumable()
-        {
 
-        }
-
-        public Ingredient getMinimumAmount ()
-        {
-
-        }
-
-        public void setMinimumAmount()
-        {
-
-        }
-
-        public Ingredient getDailyConsumptionRate()
-        {
-
-        }
-
-        public void setDailyConsumptionRate()
-        {
-
-        }
-
-        public Ingredient getIngredientCategory()
-        {
-
-        }
-
-        public void setIngredientCategory()
-        {
-
-        }
-
-        public Ingredient getAmountForRecipe()
-        {
-
-        }
-        public void setAmountForRecipe()
-        {
-
-        }
+        }    
     }
 
+        /// <summary>
+        /// Interaction logic for MainWindow.xaml
+        /// </summary>
+        /// 
 
 
-    public class recipe
-    {
-        public recipe getRecipeId()
+
+
+
+
+
+
+
+
+        /*public class category
+        {
+            public void showIngredients()
+            {
+
+            }
+            public void showIngredientCost()
+            {
+
+            }
+            public void addToCategory()
+            {
+
+            }
+            public void addToDatabase()
+            {
+
+            }
+            public void updateAtDatabase()
+            {
+
+            }
+            public void removeFromDatabase()
+            {
+
+            }
+        }*/
+
+
+        public partial class MainWindow : Window
+        {
+
+            private SqlConnection conn;
+            private DataTable dt;
+            public MainWindow()
+            {
+                
+            }
+           
+            private void newIngredient_Click(object sender, RoutedEventArgs e)
+            {
+                NewIngredient ingredientWindow = new();
+                ingredientWindow.Show();
+            }
+
+            private void showHistory_Click(object sender, RoutedEventArgs e)
+            {
+                History showHistory = new();
+                showHistory.Show();
+            }
+
+            private void addNewRecipe_Click(object sender, RoutedEventArgs e)
+            {
+
+            }
+
+            private void discardNewRecipe_Click(object sender, RoutedEventArgs e)
+            {
+
+            }
+
+            private void planRecipe_Click(object sender, RoutedEventArgs e)
+            {
+
+            }
+        private void showRecipes_Click(object sender, RoutedEventArgs e)
         {
 
         }
-        public void setRecipeId()
+
+
+
+        private void allRecipes_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
-
+            var item = (ListBox)sender;
+            var recipe = (Recipe)item.SelectedItem;
+            MessageBox.Show("You Selected "  + "(ID: " + recipe.RecipeId + ", added on Date : " + recipe.RecipeName + ")");
         }
-        public recipe getRecipeName()
-        {
-
-        }
-        public void setRecipeName()
-        {
-
-        }
-        public recipe getRecipeInstructions()
-        {
-
-        }
-        public void setRecipeInstructions()
-        {
-
-        }
-        public Boolean checkIngredientFromDatabase()
-        {
-
-        }
-        public void manualSearchOrAdd()
-        {
-
-        }
-        public void addToDatabase()
-        {
-
-        }
-        public void updateAtDatabase()
-        {
-
-        }
-        public void removeFromDatabaseType()
-        {
-
-        }
-
-
-
-
-
 
     }
-
-    public class ingredientInStorage
-    {
-        public ingredientInStorage getIngredientPrice()
-        {
-
-        }
-        public void setIngredientPrice()
-        {
-
-        }
-        public ingredientInStorage getBuyDate()
-        {
-
-        }
-        public void setBuyDate()
-        {
-
-        }
-        public ingredientInStorage getExpirationDate()
-        {
-
-        }
-        public void setExpirationDate()
-        {
-
-        }
-        public ingredientInStorage getAmountInStorage()
-        {
-
-        }
-        public void setAmountInStorage()
-        {
-
-        }
-        public void showIngredientCost()
-        {
-
-        }
-        public void removeExpired()
-        {
-
-        }
-        public void checkDatabaseBalance()
-        {
-
-        }
-        public void addToDatabase()
-        {
-
-        }
-        public void updateAtDatabase()
-        {
-
-        }
-        public void removeFromDatabase()
-        {
-
-        }
     }
 
-
-
-
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
-
-        private void newIngredient_Click(object sender, RoutedEventArgs e)
-        {
-            NewIngredient ingredientWindow = new();
-            ingredientWindow.Show();
-        }
-
-        private void showHistory_Click(object sender, RoutedEventArgs e)
-        {
-            History showHistory = new();
-            showHistory.Show();
-        }
-
-        private void addNewRecipe_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void discardNewRecipe_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void planRecipe_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-    }
-}

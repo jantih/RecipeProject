@@ -84,6 +84,8 @@ namespace RecipeProject
             this.conn.CloseConnection();
         }
 
+        
+
         private void readSql_Click(object sender, RoutedEventArgs e)
         {
             this.dt = this.conn.ReadFromSql();
