@@ -15,10 +15,8 @@ namespace MoreRecipeWPF
         public int AmountInStorage { get; set; }
         public string ManualSearchOrAdd { get; set; }
 
-        public void showIngredientCost()
-        {
-
-        }
+        public int showIngredientCost { get; }
+        
         public void removeExpired()
         {
 
