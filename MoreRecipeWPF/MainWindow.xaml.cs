@@ -25,7 +25,8 @@ namespace MoreRecipeWPF
         private string connstr, ipaddr, user, database, password;
         private int port;
         MySqlConnection connection;
-        
+        private DataSet ds;
+        private MySqlDataAdapter dataAdapter;
         public SqlConnection(string ipaddr, string user, string database, string password, int port)
         {
             this.ipaddr = ipaddr;
@@ -67,30 +68,39 @@ namespace MoreRecipeWPF
         }
         public DataTable ShowRecipes()
         {
+            MySqlConnection connection = new MySqlConnection(this.connstr);
             string query = "SELECT * FROM recipe";
             MySqlCommand cmd = new MySqlCommand(query, connection);
 
-            DataTable dt1 = new();
-            dt1.Load(cmd.ExecuteReader());
-            return dt1;
+            DataTable dt = new();   
+            dt.Load(cmd.ExecuteReader());
+            return dt;
+        }
+
+        public DataTable ShowIngredients()
+        {
+            string query = "SELECT * FROM ingredient";
+            MySqlCommand cmd = new MySqlCommand(query, connection);
+
+            DataTable dt = new();
+            dt.Load(cmd.ExecuteReader());
+            return dt;
         }
 
 
 
 
 
-        
 
 
 
 
-        
     }
 
-        /// <summary>
-        /// Interaction logic for MainWindow.xaml
-        /// </summary>
-        /// 
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    /// 
 
 
 
@@ -101,162 +111,187 @@ namespace MoreRecipeWPF
 
 
 
-        /*public class category
-        {
-            public void showIngredients()
-            {
-
-            }
-            public void showIngredientCost()
-            {
-
-            }
-            public void addToCategory()
-            {
-
-            }
-            public void addToDatabase()
-            {
-
-            }
-            public void updateAtDatabase()
-            {
-
-            }
-            public void removeFromDatabase()
-            {
-
-            }
-        }*/
-
-
-        public partial class MainWindow : Window
+    /*public class category
+    {
+        public void showIngredients()
         {
 
-            private MySqlConnection conn;
-            private DataTable dt;
-        private MySqlDataAdapter dataAdapter;
+        }
+        public void showIngredientCost()
+        {
+
+        }
+        public void addToCategory()
+        {
+
+        }
+        public void addToDatabase()
+        {
+
+        }
+        public void updateAtDatabase()
+        {
+
+        }
+        public void removeFromDatabase()
+        {
+
+        }
+    }*/
+
+
+    public partial class MainWindow : Window
+    {
+
+        private SqlConnection conn;
+        private DataTable dt;
+        private MySqlDataAdapter dbr;
         private DataSet ds;
-        private string connstructor;
+        MySqlConnection connection;
+
+
+
+
+
+
+
         public MainWindow()
-            {
-                
-            }
-
-
-        public void fill_IngredientsListBox()
         {
-
-            try
-            {
-                MySqlConnection connection = new MySqlConnection(this.connstructor);
-                connection.Open();
-                string query = "SELECT * FROM ingredient";
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                dataAdapter = new MySqlDataAdapter(cmd);
-                ds = new DataSet();
-                dataAdapter.Fill(ds, "ingredient");
-                Ingredient ing = new Ingredient();
-                IList<Ingredient> ing1 = new List<Ingredient>();
-
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    ing1.Add(new Ingredient
-                    {
-                        IngredientId = Convert.ToInt32(dr[0].ToString()),
-                        IngredientName = dr[1].ToString(),
-
-                    });
-                }
-                ingredientListBox.ItemsSource = ing1;
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-            finally
-            {
-                ds = null;
-                dataAdapter.Dispose();
-                conn.Close();
-                conn.Dispose();
-            }
-
-
+            this.conn = new("localhost", "resepti", "reseptiproj", "1234", 3306);
+            this.dt = new DataTable();
+            this.conn.OpenConnection();
+            this.conn.CloseConnection();
         }
 
 
-        public void fill_RecipesListBox()
+        /* public void fill_IngredientsListBox()
+         {
+
+             try
+             {
+                 MySqlConnection connection = new MySqlConnection(this.connstructor);
+                 connection.Open();
+                 string query = "SELECT * FROM ingredient";
+                 MySqlCommand cmd = new MySqlCommand(query, connection);
+                 dataAdapter = new MySqlDataAdapter(cmd);
+                 ds = new DataSet();
+                 dataAdapter.Fill(ds, "ingredient");
+                 Ingredient ing = new Ingredient();
+                 IList<Ingredient> ing1 = new List<Ingredient>();
+
+                 foreach (DataRow dr in ds.Tables[0].Rows)
+                 {
+                     ing1.Add(new Ingredient
+                     {
+                         IngredientId = Convert.ToInt32(dr[0].ToString()),
+                         IngredientName = dr[1].ToString(),
+
+                     });
+                 }
+                 ingredientListBox.ItemsSource = ing1;
+
+             }
+             catch (Exception ex)
+             {
+
+             }
+             finally
+             {
+                 ds = null;
+                 dataAdapter.Dispose();
+                 conn.Close();
+                 conn.Dispose();
+             }
+
+
+         }
+
+
+         public DataSet fill_RecipesListBox()
+         {
+
+
+             MySqlConnection connection = new MySqlConnection(this.connstr);
+             string query = "SELECT * FROM recipe";
+             MySqlCommand cmd = new MySqlCommand(query, connection);
+
+             MySqlDataReader dbr;
+
+
+
+                this.connection.Open();
+
+                 dbr = cmd.ExecuteReader();
+
+                 while (dbr.Read())
+
+                 {
+
+                 (new Recipe { RecipeId = dbr.GetInt32(0), RecipeName = dbr.GetString(1) });
+
+
+
+                 }
+
+
+
+
+             try
+             {
+                 MySqlConnection connection = new MySqlConnection(this.connstructor);
+                 connection.Open();
+                 string query = "SELECT * FROM recipe";
+                 MySqlCommand cmd = new MySqlCommand(query, connection);
+                 dataAdapter = new MySqlDataAdapter(cmd);
+                 ds = new DataSet();
+                 dataAdapter.Fill(ds, "recipe");
+                 Recipe re = new Recipe();
+
+                 IList<Recipe> re1 = new List<Recipe>();
+
+                 foreach (DataRow dr in ds.Tables[0].Rows)
+                 {
+                     re1.Add(new Recipe
+                     {
+                         RecipeId = Convert.ToInt32(dr[0].ToString()),
+                         RecipeName = dr[1].ToString(),
+
+                     });
+                 }
+                 allRecipes.ItemsSource = re1;
+
+             }
+             catch (Exception ex)
+             {
+
+             }
+             finally
+             {
+
+                 ds = null;
+                 dataAdapter.Dispose();
+                 conn.Close();
+                 conn.Dispose();
+
+
+
+             }*/
+
+
+        private void Open_Connection_Click(object sender, RoutedEventArgs e)
         {
-
-
-            /*MySqlConnection connection = new MySqlConnection(this.connstr);
-            string query = "SELECT * FROM recipe";
-            MySqlCommand cmd = new MySqlCommand(query, connection);
-
-            MySqlDataReader dbr;
-            
-            
-
-               this.connection.Open();
-
-                dbr = cmd.ExecuteReader();
-
-                while (dbr.Read())
-
-                {
-
-                (new Recipe { RecipeId = dbr.GetInt32(0), RecipeName = dbr.GetString(1) });
-
-                
-
-                }
-
-            
-            */
-
-            try
-            {
-                MySqlConnection connection = new MySqlConnection(this.connstructor);
-                connection.Open();
-                string query = "SELECT * FROM recipe";
-                MySqlCommand cmd = new MySqlCommand(query, connection);
-                dataAdapter = new MySqlDataAdapter(cmd);
-                ds = new DataSet();
-                dataAdapter.Fill(ds, "recipe");
-                Recipe re = new Recipe();
-                IList<Recipe> re1 = new List<Recipe>();
-
-                foreach (DataRow dr in ds.Tables[0].Rows)
-                {
-                    re1.Add(new Recipe
-                    {
-                        RecipeId = Convert.ToInt32(dr[0].ToString()),
-                        RecipeName = dr[1].ToString(),
-
-                    });
-                }
-                allRecipes.ItemsSource = re1;
-
-            }
-            catch (Exception ex)
-            {
-
-            }
-            finally
-            {
-                ds = null;
-                dataAdapter.Dispose();
-                conn.Close();
-                conn.Dispose();
-            }
-
-
-
-
-
+            this.conn.OpenConnection();
         }
+
+
+
+        private void Close_Connection_Click(object sender, RoutedEventArgs e)
+        {
+            this.conn.CloseConnection();
+        }
+
+
+
 
 
 
@@ -286,28 +321,99 @@ namespace MoreRecipeWPF
             {
 
             }
-        private void showRecipes_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+      
 
 
 
         
 
-        private void allRecipes_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+       /* private void allRecipes_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
         {
             var item = (ListBox)sender;
             var recipe = (Recipe)item.SelectedItem;
             MessageBox.Show("(ID: " + recipe.RecipeId + recipe.RecipeName + ")");
-        }
+        }*/
 
         private void ingredientListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var item = (ListBox)sender;
-            var ingredient = (Ingredient)item.SelectedItem;
-            MessageBox.Show( "(ID: " + ingredient.IngredientId  + ingredient.IngredientName + ")");
+            this.conn.OpenConnection();
+            this.dt = this.conn.ShowIngredients();
+
+
+            
+               
+                
+
+                
+                IList<Ingredient> ing1 = new List<Ingredient>();
+
+                // DEBUG -- Iteroidaan SQLstä haetun datan läpi, tätä voi myöhemmin käyttää ingredient listan täyttämiseksi backendin puolella
+                foreach (DataRow dr in dt.Rows)
+                {
+                    ing1.Add(new Ingredient
+                    {
+                        IngredientId = (int)row[0],
+                        IngredientName = dr[1].ToString(),
+
+                    });
+
+                }
+                ingredientListBox.ItemsSource = ing1;
+            
+          
+
+
+
         }
+            
+
+        
+
+        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            this.conn.OpenConnection();
+            this.dt = this.conn.ShowRecipes();
+
+
+
+            try
+            {
+                
+                Recipe re = new Recipe();
+
+                IList<Recipe> re1 = new List<Recipe>();
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    re1.Add(new Recipe
+                    {
+                        RecipeId = Convert.ToInt32(dr[0].ToString()),
+                        RecipeName = dr[1].ToString(),
+
+                    });
+
+                }
+                allRecipes.ItemsSource = re1;
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            finally
+            {
+                
+                this.conn.CloseConnection();
+            }
+        }
+
+
+        // DEBUG -- Iteroidaan SQLstä haetun datan läpi, tätä voi myöhemmin käyttää ingredient listan täyttämiseksi backendin puolella
+
     }
-    }
+
+       
+    
+}
+    
 
