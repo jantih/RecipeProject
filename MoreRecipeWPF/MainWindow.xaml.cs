@@ -345,20 +345,20 @@ namespace MoreRecipeWPF
                 
 
                 
-                IList<Ingredient> ing1 = new List<Ingredient>();
+                //IList<Ingredient> ing1 = new List<Ingredient>();
 
-                // DEBUG -- Iteroidaan SQLstä haetun datan läpi, tätä voi myöhemmin käyttää ingredient listan täyttämiseksi backendin puolella
-                foreach (DataRow dr in dt.Rows)
-                {
-                    ing1.Add(new Ingredient
-                    {
-                        IngredientId = (int)row[0],
-                        IngredientName = dr[1].ToString(),
+                //// DEBUG -- Iteroidaan SQLstä haetun datan läpi, tätä voi myöhemmin käyttää ingredient listan täyttämiseksi backendin puolella
+                //foreach (DataRow dr in dt.Rows)
+                //{
+                //    ing1.Add(new Ingredient
+                //    {
+                //        IngredientId = (int)row[0],
+                //        IngredientName = dr[1].ToString(),
 
-                    });
+                //    });
 
-                }
-                ingredientListBox.ItemsSource = ing1;
+                //}
+                //ingredientListBox.ItemsSource = ing1;
             
           
 
